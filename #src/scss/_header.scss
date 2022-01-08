@@ -1,0 +1,142 @@
+@mixin elements-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+.nav {
+    background-color: white;
+    height: 90px;
+}
+.nav__navbar {
+    height: 100%;
+    width: 100%;
+    border-collapse: collapse;
+    td {
+        border: .5px solid #c4c4c4;
+        border-top: none;
+        border-bottom: none;
+        vertical-align: middle;
+    }
+}
+
+.navbar__element {
+    @include elements-flex;
+    margin: 0 10px;
+}
+.navbar__social {
+    min-width: 80px;
+}
+.social__img {
+    width: 24px;
+    height: 24px;
+}
+.number {
+    font-weight: 500;
+}
+.drop-down-salons {
+    display: flex;
+    align-items: center;
+    div {
+        height: 20px;
+    }
+}
+.salons {
+    font-weight: 500;
+    padding-right: 15px;
+    display: inline;
+    margin: 0;
+}
+.button-for-bad-eyes {
+    padding: 10px 15px;
+    font-weight: 500;
+    font-size: 14px;
+    color: white;
+    background-color: #00868A;
+    border: none;
+}
+.button-bad-eyes {
+    display: flex;
+    align-items: center;
+    height: 26px;
+}
+.eye-in-button {
+    padding-right: 10px;
+}
+.version-for-bad-eyes {
+    font-weight: 500;
+    font-size: 14px;
+}
+.logo {
+    height: 55px;
+    transform: translateY(2px);
+}
+.header-in-header {
+    background-color: #4FBFA5;
+}
+.header__navbar {
+    display: flex;
+    height: 87px;
+    align-items: center;
+}
+.table {
+    width: 83%;
+    td {
+        width: 20%;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 500px;
+        color: white;
+    }
+}
+.sign-up {
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 9px 15px;
+}
+.cosmetic {
+    h1 {
+        color: white;
+        font-size: 48px;
+        font-weight: bold;
+    }
+    p {
+        color: white;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 40px;
+    }
+    button {
+        background-color: #00868A;
+        color: white;
+        border: none;
+        padding: 14px 25px;
+        font-size: 18px;
+        font-weight: 500;
+    }
+    img {
+        transform: translate(200px, 160px);
+    }
+}
+@mixin menu {
+    font-size: 21px;
+    font-weight: 500;
+    color: white;
+    background-color: #00868a;
+    text-align: center;
+    padding: 24px 0;
+}
+.complex-procedures {
+    @include menu;
+}
+.center-of-study {
+    @include menu;
+    background-color: inherit;
+}
+.vip-clients {
+    @include menu;
+}
