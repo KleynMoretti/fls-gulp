@@ -3,6 +3,8 @@ const fileinclude = require('gulp-file-include');
 let project_folder = "dist";
 let source_folder = "#src";
 
+let fs = require("fs");
+
 let path={
     build:{
         html: project_folder + "/",
@@ -25,7 +27,7 @@ let path={
         img: source_folder + "/img/**/*.{jpg,png,svg,gif,ico,webp}"
     },
     clean : "./" + project_folder + "/"
-}
+};
 
 let { src, dest } = require('gulp'),
     gulp = require('gulp'),
@@ -42,16 +44,22 @@ let { src, dest } = require('gulp'),
     webp = require("gulp-webp"),
     webphtml = require("gulp-webp-html"),
     webpcss = require("gulp-webpcss"),
-    svgSprite = require("gulp-svg-sprite");
+    svgSprite = require("gulp-svg-sprite"),
+    ttf2woff = require("gulp-ttf2woff"),
+    ttf2woff2 = require("gulp-ttf2woff2");
 
 function browserSync(params) {
+    "use strict";
     browsersync.init({
         server: {
             baseDir: "./" + project_folder + "/"
         },
+        host: 'example.com',
+        logPrefix: 'example.com',
         port: 3000,
-        notify: false
-    })
+        notify: false,
+        ghost: true,
+    });
 }
 
 function js() {
@@ -67,7 +75,7 @@ function js() {
             })
         )
         .pipe(dest(path.build.js))
-        .pipe(browsersync.stream())
+        .pipe(browsersync.stream());
 }
 
 function html() {
@@ -75,7 +83,7 @@ function html() {
         .pipe(fileInclude())
         .pipe(webphtml())
         .pipe(dest(path.build.html))
-        .pipe(browsersync.stream())
+        .pipe(browsersync.stream());
 }
 
 function css() {
@@ -103,7 +111,7 @@ function css() {
         )
         .pipe(clean_css())
         .pipe(dest(path.build.css))
-        .pipe(browsersync.stream())
+        .pipe(browsersync.stream());
 }
 
 function images() {
@@ -124,7 +132,16 @@ function images() {
             })
         )
         .pipe(dest(path.build.img))
-        .pipe(browsersync.stream())
+        .pipe(browsersync.stream());
+}
+
+function fonts() {
+    src(path.src.fonts)
+        .pipe(ttf2woff())
+        .pipe(dest(path.build.fonts));
+    return src(path.src.fonts)
+        .pipe(ttf2woff2())
+        .pipe(dest(path.build.fonts));
 }
 
 gulp.task('svgSprite', function () {
@@ -137,8 +154,31 @@ gulp.task('svgSprite', function () {
             },
         }
         ))
-        .pipe(dest(path.build.img))
-})
+        .pipe(dest(path.build.img));
+});
+
+function fontsStyle(params) {
+
+    let file_content = fs.readFileSync(source_folder + '/scss/fonts.scss');
+    if (file_content == '') {
+    fs.writeFile(source_folder + '/scss/fonts.scss', '', cb);
+    return fs.readdir(path.build.fonts, function (err, items) {
+    if (items) {
+    let c_fontname;
+    for (var i = 0; i < items.length; i++) {
+    let fontname = items[i].split('.');
+    fontname = fontname[0];
+    if (c_fontname != fontname) {
+    fs.appendFile(source_folder + '/scss/fonts.scss', '@include font("' + fontname + '", "' + fontname + '", "400", "normal");\r\n', cb);
+    }
+    c_fontname = fontname;
+    }
+    }
+    });
+    }
+    }
+    
+    function cb() { }
 
 function watchFiles(params){
     gulp.watch([path.watch.html], html);
@@ -151,9 +191,11 @@ function clean(params) {
     return del(path.clean);
 }
 
-let build = gulp.series(clean, gulp.parallel(js, css, html, images));
+let build = gulp.series(clean, gulp.parallel(js, css, html, images, fonts, fontsStyle));
 let watch = gulp.parallel(build, watchFiles, browserSync);
 
+exports.fontsStyle = fontsStyle;
+exports.fonts = fonts;
 exports.images = images;
 exports.js = js;
 exports.css = css;

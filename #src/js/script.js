@@ -1,2 +1,4 @@
-@@include('alert.js');
-@@include('webpcss-and-fontStyle.js');
+"use strict";
+let expression = document.querySelector('.expression__text');
+expression.innerText = '232';
+
