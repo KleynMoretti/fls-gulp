@@ -1,0 +1,25 @@
+.table {
+    display: flex;
+    background: grey;
+    width: 600px;
+    height: 600px;
+    margin: auto;
+    flex-direction: column;
+}
+.tr {
+    display: flex;
+    flex-grow: 1;
+}
+.cell {
+    flex-grow: 1;
+    transition: 1s all;
+}
+.green {
+    background-color: green;
+}
+.white {
+    background-color: #fff;
+}
+.black {
+    background-color: #000;
+}
