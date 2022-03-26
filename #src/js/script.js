@@ -85,16 +85,22 @@ for (let i of rows) {
     countI++;
 }
     
-table.addEventListener('click', function() {
-    selected = collectionOfCheckers[event.target.id];
-    selected.select = !selected.select;
-    if (selected.select) changeColor(document.getElementById(selected.row+selected.cell), 'green');
-    if (!selected.select) changeColor(document.getElementById(selected.row+selected.cell), selected.primalColor);
-});
+
 
 function changeColor(t, color) {
     t.className= 'cell' + ' ' + color;
 }
 
-collectionOfCheckers['2a'].move(3, 'b');
-collectionOfCheckers['3b'].move(2, 'a');
+table.addEventListener('click', function() {
+    selected = collectionOfCheckers[event.target.id];
+    selected.select = !selected.select;
+    if (selected.select) changeColor(document.getElementById(selected.row+selected.cell), 'green');
+    if (!selected.select) changeColor(document.getElementById(selected.row+selected.cell), selected.primalColor);
+    
+});
+table.addEventListener('click', function() {
+    let id = event.target.id;
+    selected.move(id[0], id[1]);
+    
+});
+
